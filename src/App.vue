@@ -1,18 +1,17 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">q
+    <img src="http://www.thelogofactory.com/wp-content/uploads/2015/08/coffee-services-unlimited-logo.png">
     <ol>
       <li v-for="(machine,index) in machines">
-        La machine nommée <span v-bind:class="{red: !machine.enabled}">{{machine.name}}</span> est <span v-bind:class="{red: !machine.enabled}">{{machine.enabled? 'ACTIVE': 'EN PANNE'}}</span>
-        <button class="btn btn-info" v-on:click="edit(index)">Modifier le statut</button>
+        La machine nommée <span v-bind:class="{red: !machine.enabled}">{{machine.name}}</span> est
+        <toggle-button class="changed-font" :color="{checked: '#1fd615', unchecked: '#d61e14'}" :labels="{checked: 'Active', unchecked: 'En panne'}" :width="110" :height="30" v-model="machine.enabled"/>
       </li>
     </ol>
     <h2>Ajouter une machine</h2>
     <div class="row justify-content-center">
       <label for="nouvelleMachine" class="col-lg-1">Nom :</label>
       <input class="form-control col-lg-4" type="text" id="nouvelleMachine" v-model="machineTemporaire.name">
-      <label for="nouvelleMachineEnabled" class="col-lg-1">Active?</label>
-      <input id="nouvelleMachineEnabled" type="checkbox" v-model="machineTemporaire.enabled">
+      <toggle-button class="changed-font" :color="{checked: '#1fd615', unchecked: '#855bd6'}" :labels="{checked: 'Active', unchecked: 'En panne'}" :width="110" :height="30" v-model="machineTemporaire.enabled"/>
     </div>
     <button v-on:click ="addToMachines" class="btn btn-success">Ajouter aux machines</button>
     <h2>Supprimer une machine</h2>
@@ -26,7 +25,7 @@
 </template>
 
 <script>
-export default {
+  export default {
     name: 'app',
     data() {
       return {
@@ -100,20 +99,11 @@ export default {
     color: green;
   }
 
-  /* Bootstrap Toggle v2.2.2 corrections for Bootsrtap 4*/
-  .toggle-off {
-    box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);
-  }
-  .toggle.off {
-    border-color: rgba(0, 0, 0, .25);
-  }
-
-  .toggle-handle {
-    background-color: white;
-    border: thin rgba(0, 0, 0, .25) solid;
-  }
-
   .red{
     color: red;
+  }
+
+  .vue-js-switch.changed-font{
+    font-size: 16px;
   }
 </style>
