@@ -1,18 +1,16 @@
 <template>
   <div id="app">
     <img src="http://www.thelogofactory.com/wp-content/uploads/2015/08/coffee-services-unlimited-logo.png">
-    <ol>
-      <li v-for="(machine,index) in machines">
-        <machine v-bind="machine" @enableChanged="edit(index)"/>
-      </li>
-    </ol>
-    <h2>Ajouter une machine</h2>
-    <div class="row justify-content-center">
-      <label for="nouvelleMachine" class="col-lg-1">Nom :</label>
-      <input class="form-control col-lg-4" type="text" id="nouvelleMachine" v-model="machineTemporaire.name">
-      <toggle-button class="changed-font" v-bind:color="{checked: '#1fd615', unchecked: '#855bd6'}" v-bind:labels="{checked: 'Active', unchecked: 'En panne'}" v-bind:width="110" v-bind:height="30" v-model="machineTemporaire.enabled"/>
+    <div>
+      Filtrer les résultats <toggle-button class="changed-font" v-bind:width="100" v-bind:height="30" v-bind:labels="{checked: 'Toutes', unchecked: 'Actives'}" v-model="afficheInactives"/>
     </div>
-    <button v-on:click ="addToMachines" class="btn btn-success">Ajouter aux machines</button>
+    <ul>
+        <machine v-for="machine in machines" v-if='afficheInactives || machine.enabled' :machine="machine"/>
+    </ul>
+    <h2>Ajouter une machine</h2>
+
+    <ajout-machine :machineAajouter="machineTemporaire" @add="addToMachines"/>
+
     <h2>Supprimer une machine</h2>
     <div class="row justify-content-center">
       <select v-model="toRemove" id="toRemove" class="form-control col-lg-4">
@@ -44,7 +42,7 @@
           enabled:false
         },
         toRemove: null,
-        test: true
+        afficheInactives: true
       }
     },
     methods: {
